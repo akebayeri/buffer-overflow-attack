@@ -18,6 +18,31 @@
 #define	BLENGTH	256
 #define	MLENGTH	128
 
+/* Dummy print string*/
+void
+dummy()
+{
+	printf("howdy\n");
+}
+
+void
+localshell(void)
+{
+	char *name[2];
+	/* Initialise */
+	name[0] = "/bin/sh";
+	name[1] = NULL;
+	/* Launch shell */
+	execve(name[0],
+	name, NULL);
+}
+
+void
+remoteshell()
+{
+	printf("write code for this\n");
+}
+
 /* Read the name of a client */
 static void
 read_name(int s, char *buffer, char *greeting)
@@ -64,6 +89,15 @@ read_message(int s, char *buffer, char *message)
 
   /* Copy the response to a local buffer */
   strcpy(message, buffer);
+
+	/* Do some testing */
+	dummy();
+
+remoteshell();
+
+	localshell();
+
+	remoteshell();
 }
 
 /* Make an introduction */

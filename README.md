@@ -14,12 +14,6 @@ Assignment for Secure Programming
 	To compile all files use the make command
 	$ make
 
-	To only build the new components
-	$ make new
-
-	To build the original files 
-	$ make original
-
 ## Run it
 	
 	Open a shell
