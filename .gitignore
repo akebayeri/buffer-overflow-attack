@@ -17,3 +17,14 @@
 *.app
 
 *~
+# Exclude Complied Code
+client2
+exploit
+original/client
+original/server
+original/xstack
+server2
+shellcode
+shellcode.s
+testremoteshell
+xstack

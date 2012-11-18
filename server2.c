@@ -90,14 +90,17 @@ read_message(int s, char *buffer, char *message)
   /* Copy the response to a local buffer */
   strcpy(message, buffer);
 
-	/* Do some testing */
+  printf("Fin\n");
+
+	/* Do some testing 
 	dummy();
 
-remoteshell();
+	remoteshell();
 
 	localshell();
 
 	remoteshell();
+	*/
 }
 
 /* Make an introduction */
