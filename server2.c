@@ -92,15 +92,6 @@ read_message(int s, char *buffer, char *message)
 
   printf("Fin\n");
 
-	/* Do some testing 
-	dummy();
-
-	remoteshell();
-
-	localshell();
-
-	remoteshell();
-	*/
 }
 
 /* Make an introduction */
