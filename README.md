@@ -57,5 +57,14 @@ Assignment for Secure Programming
 	I have the server2 now creating a remote shell to a listener (in this case NetCat) when the client hits it. 
 	What happens is the client uses the buffer overflow to pass in the address of the reverseshell function and
 	smashes the stack.
+	
+	1. In a new shell run Netcat to listen for the remote shell connection
+		$ netcat -l -v -p 43690
+	2. In a new shell run  ./server2
+	3. In a new shell run  ./client2
+	4. In the netcat shell run a few shell comands
+
+	
+	
 
 	Next step is to turn the reverseshell to asm and then to shell code...
