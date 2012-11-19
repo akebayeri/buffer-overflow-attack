@@ -4,6 +4,7 @@ all:
 	gcc -g -mpreferred-stack-boundary=2 -o server2 server2.c -lpthread	
 	gcc -g -static -mpreferred-stack-boundary=2 -o xstack xstack.c
 	gcc -g -mpreferred-stack-boundary=2 -o client2 client2.c
+	gcc -g -mpreferred-stack-boundary=2 -o reverseshell reverseshell.c
 	./xstack server2
 
 original:

